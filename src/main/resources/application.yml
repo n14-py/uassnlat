@@ -1,0 +1,29 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  error:
+    include-message: never
+    include-stacktrace: never
+
+spring:
+  application:
+    name: tienda-noticias
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/tienda_noticias?serverSelectionTimeoutMS=4000}
+      auto-index-creation: true
+  thymeleaf:
+    cache: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+tienda:
+  admin:
+    usuario: admin
+    clave: admin123
+    nombre: Redacción

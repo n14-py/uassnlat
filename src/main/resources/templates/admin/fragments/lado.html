@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<aside class="admin-side" th:fragment="lado">
+    <a class="admin-marca" th:href="@{/admin}">
+        <strong>Noticias<span>.lat</span></strong>
+        <small>Redacción</small>
+    </a>
+    <nav class="admin-nav" aria-label="Administración">
+        <a th:href="@{/admin}" th:classappend="${ruta == '/admin' or ruta == '/admin/'} ? 'activo' : ''">Tablero</a>
+        <a th:href="@{/admin/productos}" th:classappend="${#strings.contains(ruta, '/admin/productos')} ? 'activo' : ''">Productos</a>
+        <a th:href="@{/admin/ventas/nueva}" th:classappend="${#strings.contains(ruta, '/ventas/nueva')} ? 'activo' : ''">Registrar venta</a>
+        <a th:href="@{/admin/ventas}" th:classappend="${#strings.contains(ruta, '/admin/ventas') and !#strings.contains(ruta, '/nueva')} ? 'activo' : ''">Ventas</a>
+        <a th:href="@{/}">Ver la tienda</a>
+    </nav>
+    <form class="admin-salir" th:action="@{/logout}" method="post">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+</aside>
+<header class="admin-top" th:fragment="tope">
+    <p>Mesa de redacción</p>
+    <div>
+        <span sec:authentication="name">admin</span>
+        ·
+        <a th:href="@{/}">Ver la tienda</a>
+    </div>
+</header>
+</body>
+</html>

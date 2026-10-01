@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img">
+  <rect width="640" height="800" fill="#f6f1e8"/>
+  
+  <rect width="640" height="800" fill="#ece7dc"/>
+  <text x="48" y="430" fill="#14324a" font-family="Georgia, serif" font-size="220">26</text>
+  <line x1="60" y1="500" x2="580" y2="500" stroke="#14324a" stroke-width="2"/>
+  <text x="60" y="550" fill="#14324a" font-family="Georgia, serif" font-size="20" letter-spacing="7">ANUARIO</text>
+  <text x="60" y="100" fill="#9f1d2a" font-family="Georgia, serif" font-size="18" letter-spacing="5">NOTICIAS.LAT</text>
+
+</svg>

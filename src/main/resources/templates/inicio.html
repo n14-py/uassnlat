@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Inicio')}"></head>
+<body class="sitio">
+<header th:replace="~{fragments/header :: header}"></header>
+<main id="contenido">
+    <section class="contenedor hero">
+        <div class="hero-copia">
+            <p class="kicker">Edición de tienda</p>
+            <h1>La redacción, también en papel y objeto.</h1>
+            <p class="bajada">Suscripciones, anuarios, libros y piezas editadas por Noticias.lat. Un proyecto universitario con cara de casa editorial: el pedido se registra en local y el pago no se cobra.</p>
+            <div class="acciones">
+                <a class="btn" th:href="@{/catalogo}">Ver el catálogo</a>
+                <a class="btn-linea" th:href="@{/catalogo(categoria='SUSCRIPCION')}">Ver suscripciones</a>
+            </div>
+        </div>
+        <figure class="hero-figura" th:if="${hero != null}">
+            <a th:href="@{|/producto/${hero.slug}|}">
+                <img th:src="@{|/img/portadas/${hero.imagen}.svg|}" th:alt="${hero.nombre}">
+            </a>
+            <figcaption>
+                <div>
+                    <p class="kicker" th:text="${hero.categoria.nombre}">Sección</p>
+                    <strong th:text="${hero.nombre}">Anuario</strong>
+                </div>
+                <span th:text="${@dinero.format(hero.precio)}">US$ 0</span>
+            </figcaption>
+        </figure>
+    </section>
+
+    <section class="contenedor bloque">
+        <div class="bloque-titulo">
+            <h2>Índice</h2>
+        </div>
+        <div class="secciones">
+            <a class="seccion-card" th:each="cat : ${categorias}" th:href="@{/catalogo(categoria=${cat})}">
+                <strong th:text="${cat.nombre}">Sección</strong>
+                <span th:text="${conteoCategorias.get(cat)} + ' piezas'">0 piezas</span>
+                <p th:text="${cat.descripcion}">Descripción</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="contenedor bloque">
+        <div class="bloque-titulo">
+            <h2>En portada</h2>
+            <a th:href="@{/catalogo}">Todo el catálogo</a>
+        </div>
+        <div class="grilla">
+            <th:block th:each="item : ${destacados}">
+                <article th:replace="~{fragments/tarjeta :: tarjeta(producto=${item})}"></article>
+            </th:block>
+        </div>
+    </section>
+
+    <section class="contenedor">
+        <figure class="cita">
+            <blockquote>Una noticia bien contada se puede guardar, prestar y releer.</blockquote>
+            <figcaption>Mesa de cierre · Noticias.lat</figcaption>
+        </figure>
+    </section>
+
+    <section class="contenedor bloque">
+        <div class="bloque-titulo">
+            <h2>Cómo se compra</h2>
+        </div>
+        <div class="pasos">
+            <article class="paso">
+                <span>01</span>
+                <h3>Elegís</h3>
+                <p>El catálogo vive en MongoDB. Cada ficha muestra precio, stock y sección.</p>
+            </article>
+            <article class="paso">
+                <span>02</span>
+                <h3>Registrás</h3>
+                <p>El pedido descuenta stock y guarda un comprobante. No hay pasarela de pago.</p>
+            </article>
+            <article class="paso">
+                <span>03</span>
+                <h3>La redacción sigue</h3>
+                <p>Desde el ingreso de redacción se cargan productos, ventas de mostrador y estados.</p>
+            </article>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

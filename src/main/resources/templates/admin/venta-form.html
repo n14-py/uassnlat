@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Registrar venta')}"></head>
+<body class="admin">
+<div class="admin-shell">
+    <aside th:replace="~{admin/fragments/lado :: lado}"></aside>
+    <div class="admin-cuerpo">
+        <header th:replace="~{admin/fragments/lado :: tope}"></header>
+        <main class="admin-main">
+            <div th:replace="~{fragments/avisos :: avisos}"></div>
+            <div class="admin-encabezado">
+                <div>
+                    <p class="kicker">Mostrador</p>
+                    <h1>Registrar venta</h1>
+                </div>
+                <a class="btn-linea" th:href="@{/admin/ventas}">Volver</a>
+            </div>
+            <p class="nota" th:if="${productos.empty}">No hay productos con stock. Cargá piezas antes de vender.</p>
+            <form class="panel" th:action="@{/admin/ventas}" th:object="${formulario}" method="post" novalidate th:if="${!productos.empty}">
+                <div class="form-grid">
+                    <label class="campo">
+                        <span>Cliente</span>
+                        <input type="text" th:field="*{clienteNombre}">
+                        <small class="campo-error" th:if="${#fields.hasErrors('clienteNombre')}" th:errors="*{clienteNombre}"></small>
+                    </label>
+                    <label class="campo">
+                        <span>Correo (opcional)</span>
+                        <input type="email" th:field="*{clienteEmail}">
+                        <small class="campo-error" th:if="${#fields.hasErrors('clienteEmail')}" th:errors="*{clienteEmail}"></small>
+                    </label>
+                    <label class="campo">
+                        <span>Teléfono (opcional)</span>
+                        <input type="text" th:field="*{clienteTelefono}">
+                    </label>
+                    <label class="campo">
+                        <span>Ciudad (opcional)</span>
+                        <input type="text" th:field="*{ciudad}">
+                    </label>
+                    <label class="campo campo-ancho">
+                        <span>Dirección (opcional)</span>
+                        <input type="text" th:field="*{direccion}">
+                    </label>
+                    <label class="campo">
+                        <span>Medio declarado</span>
+                        <select th:field="*{metodoPago}">
+                            <option th:each="metodo : ${metodos}" th:value="${metodo}" th:text="${metodo.etiqueta}"></option>
+                        </select>
+                        <small class="campo-error" th:if="${#fields.hasErrors('metodoPago')}" th:errors="*{metodoPago}"></small>
+                    </label>
+                    <label class="campo">
+                        <span>Documento (opcional)</span>
+                        <input type="text" th:field="*{documento}">
+                    </label>
+                    <label class="campo campo-ancho">
+                        <span>Notas</span>
+                        <textarea th:field="*{notas}"></textarea>
+                    </label>
+                </div>
+                <h2 style="font-family: Newsreader, Georgia, serif; font-weight: 500; margin: 1.2rem 0 .6rem;">Piezas</h2>
+                <div class="tabla-wrap">
+                    <table class="data">
+                        <thead>
+                        <tr><th>Producto</th><th>Cantidad</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="linea, iter : *{lineas}">
+                            <td>
+                                <label class="campo">
+                                    <select th:field="*{lineas[__${iter.index}__].productoId}">
+                                        <option value="">Sin producto</option>
+                                        <option th:each="producto : ${productos}" th:value="${producto.id}"
+                                                th:text="|${producto.nombre} · ${producto.sku} · stock ${producto.stock}|"></option>
+                                    </select>
+                                </label>
+                            </td>
+                            <td style="width: 140px;">
+                                <label class="campo">
+                                    <input type="number" min="0" max="20" th:field="*{lineas[__${iter.index}__].cantidad}">
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="nota">Las filas vacías se ignoran. El precio que se guarda es el de la ficha en este momento, y el stock baja al registrar.</p>
+                <div class="acciones">
+                    <button class="btn" type="submit">Guardar venta</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+</html>

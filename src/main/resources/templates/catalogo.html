@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Catálogo')}"></head>
+<body class="sitio">
+<header th:replace="~{fragments/header :: header}"></header>
+<main id="contenido" class="contenedor">
+    <div class="pagina-titulo">
+        <p class="kicker">Catálogo</p>
+        <h1 th:text="${categoriaActual != null} ? ${categoriaActual.nombre} : 'Todas las piezas'">Catálogo</h1>
+    </div>
+    <div th:replace="~{fragments/avisos :: avisos}"></div>
+    <form class="filtros" method="get" th:action="@{/catalogo}">
+        <label class="campo">
+            <span>Buscar</span>
+            <input type="search" name="q" th:value="${q}" placeholder="Nombre o SKU">
+        </label>
+        <label class="campo">
+            <span>Sección</span>
+            <select name="categoria">
+                <option value="">Todas</option>
+                <option th:each="cat : ${categorias}" th:value="${cat}" th:text="${cat.nombre}"
+                        th:selected="${categoria == cat.name()}"></option>
+            </select>
+        </label>
+        <label class="campo">
+            <span>Orden</span>
+            <select name="orden">
+                <option value="destacados" th:selected="${orden == 'destacados'}">Selección</option>
+                <option value="recientes" th:selected="${orden == 'recientes'}">Recientes</option>
+                <option value="precio_asc" th:selected="${orden == 'precio_asc'}">Precio menor</option>
+                <option value="precio_desc" th:selected="${orden == 'precio_desc'}">Precio mayor</option>
+                <option value="nombre" th:selected="${orden == 'nombre'}">Nombre</option>
+            </select>
+        </label>
+        <button class="btn" type="submit">Filtrar</button>
+    </form>
+    <p class="resultado-cuenta"
+       th:text="${pagina.totalElements == 1} ? '1 pieza' : |${pagina.totalElements} piezas|">0 piezas</p>
+    <div class="vacio" th:if="${pagina.totalElements == 0}">
+        <h2>No hay piezas con ese criterio.</h2>
+        <p>Probá otra búsqueda o volvé al índice completo.</p>
+        <div class="acciones"><a class="btn-linea" th:href="@{/catalogo}">Limpiar filtros</a></div>
+    </div>
+    <div class="grilla" th:if="${pagina.totalElements > 0}">
+        <th:block th:each="item : ${pagina.content}">
+            <article th:replace="~{fragments/tarjeta :: tarjeta(producto=${item})}"></article>
+        </th:block>
+    </div>
+    <nav class="paginacion" th:if="${pagina.totalPages > 1}" aria-label="Páginas">
+        <a th:if="${pagina.hasPrevious()}"
+           th:href="@{/catalogo(q=${q},categoria=${categoria},orden=${orden},pagina=${pagina.number - 1})}">Anterior</a>
+        <span th:text="|Página ${pagina.number + 1} de ${pagina.totalPages}|">Página 1</span>
+        <a th:if="${pagina.hasNext()}"
+           th:href="@{/catalogo(q=${q},categoria=${categoria},orden=${orden},pagina=${pagina.number + 1})}">Siguiente</a>
+    </nav>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

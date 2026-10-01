@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Ventas')}"></head>
+<body class="admin">
+<div class="admin-shell">
+    <aside th:replace="~{admin/fragments/lado :: lado}"></aside>
+    <div class="admin-cuerpo">
+        <header th:replace="~{admin/fragments/lado :: tope}"></header>
+        <main class="admin-main">
+            <div th:replace="~{fragments/avisos :: avisos}"></div>
+            <div class="admin-encabezado">
+                <div>
+                    <p class="kicker">Caja</p>
+                    <h1>Ventas</h1>
+                </div>
+                <a class="btn" th:href="@{/admin/ventas/nueva}">Registrar venta</a>
+            </div>
+            <div class="chips">
+                <a class="chip" th:classappend="${estado == null} ? 'activo' : ''" th:href="@{/admin/ventas}">Todas</a>
+                <a class="chip" th:each="item : ${estados}" th:href="@{/admin/ventas(estado=${item})}"
+                   th:classappend="${estado == item} ? 'activo' : ''" th:text="${item.etiqueta}">Estado</a>
+            </div>
+            <p class="nota" th:if="${ventas.empty}">No hay ventas en este filtro.</p>
+            <div class="tabla-wrap panel" th:if="${!ventas.empty}">
+                <table class="data">
+                    <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Origen</th>
+                        <th>Estado</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="venta : ${ventas}">
+                        <td><a th:href="@{|/admin/ventas/${venta.id}|}" th:text="${venta.numero}">NT</a></td>
+                        <td th:text="${#temporals.format(venta.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                        <td th:text="${venta.clienteNombre}">Cliente</td>
+                        <td th:text="${venta.origen.etiqueta}">Origen</td>
+                        <td><span class="estado" th:classappend="${venta.estado}" th:text="${venta.estado.etiqueta}">Estado</span></td>
+                        <td th:text="${@dinero.format(venta.total)}">US$ 0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

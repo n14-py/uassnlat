@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Error')}"></head>
+<body class="sitio">
+<main class="contenedor error-pagina">
+    <p class="kicker">Noticias.lat</p>
+    <h1 th:text="${status}">Error</h1>
+    <p class="bajada" th:text="${status == 404} ? 'Esa página no está en esta edición.' : 'No se pudo armar la página.'">Mensaje</p>
+    <div class="acciones"><a class="btn" th:href="@{/}">Volver al inicio</a></div>
+</main>
+</body>
+</html>

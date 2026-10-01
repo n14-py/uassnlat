@@ -1,0 +1,11 @@
+services:
+  mongodb:
+    image: mongo:8
+    container_name: tienda-noticias-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - tienda_noticias_mongo:/data/db
+
+volumes:
+  tienda_noticias_mongo:

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head(${venta.numero})}"></head>
+<body class="admin">
+<div class="admin-shell">
+    <aside th:replace="~{admin/fragments/lado :: lado}"></aside>
+    <div class="admin-cuerpo">
+        <header th:replace="~{admin/fragments/lado :: tope}"></header>
+        <main class="admin-main">
+            <div th:replace="~{fragments/avisos :: avisos}"></div>
+            <div class="admin-encabezado no-print">
+                <div>
+                    <p class="kicker">Comprobante</p>
+                    <h1 th:text="${venta.numero}">NT</h1>
+                </div>
+                <a class="btn-linea" th:href="@{/admin/ventas}">Volver</a>
+            </div>
+            <section class="comprobante">
+                <div class="comprobante-tope">
+                    <div>
+                        <p class="kicker">Noticias.lat · Tienda</p>
+                        <p th:text="${venta.numero}">NT</p>
+                    </div>
+                    <span class="estado" th:classappend="${venta.estado}" th:text="${venta.estado.etiqueta}">Estado</span>
+                </div>
+                <div class="form-grid">
+                    <p><strong>Fecha.</strong> <span th:text="${#temporals.format(venta.fecha, 'dd/MM/yyyy HH:mm')}"></span></p>
+                    <p><strong>Origen.</strong> <span th:text="${venta.origen.etiqueta}"></span></p>
+                    <p><strong>Cliente.</strong> <span th:text="${venta.clienteNombre}"></span></p>
+                    <p><strong>Correo.</strong> <span th:text="${venta.clienteEmail != null} ? ${venta.clienteEmail} : '—'"></span></p>
+                    <p><strong>Teléfono.</strong> <span th:text="${venta.clienteTelefono != null} ? ${venta.clienteTelefono} : '—'"></span></p>
+                    <p><strong>Ciudad.</strong> <span th:text="${venta.ciudad != null} ? ${venta.ciudad} : '—'"></span></p>
+                    <p class="campo-ancho"><strong>Dirección.</strong> <span th:text="${venta.direccion != null} ? ${venta.direccion} : '—'"></span></p>
+                    <p><strong>Medio.</strong> <span th:text="${venta.metodoPago.etiqueta}"></span></p>
+                </div>
+                <div class="tabla-wrap">
+                    <table class="data">
+                        <thead>
+                        <tr><th>Pieza</th><th>SKU</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="linea : ${venta.lineas}">
+                            <td th:text="${linea.nombre}">Nombre</td>
+                            <td th:text="${linea.sku}">SKU</td>
+                            <td th:text="${linea.cantidad}">1</td>
+                            <td th:text="${@dinero.format(linea.precioUnitario)}">US$ 0</td>
+                            <td th:text="${@dinero.format(linea.subtotal)}">US$ 0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="total-grande"><span>Total</span><span th:text="${@dinero.format(venta.total)}">US$ 0</span></p>
+                <p class="nota" th:if="${venta.notas != null}" th:text="${venta.notas}"></p>
+                <div class="acciones-estado no-print">
+                    <form th:if="${venta.estado.name() == 'REGISTRADA'}" th:action="@{|/admin/ventas/${venta.id}/estado|}" method="post">
+                        <input type="hidden" name="estado" value="EN_PREPARACION">
+                        <button class="btn" type="submit">Pasar a preparación</button>
+                    </form>
+                    <form th:if="${venta.estado.name() == 'EN_PREPARACION'}" th:action="@{|/admin/ventas/${venta.id}/estado|}" method="post">
+                        <input type="hidden" name="estado" value="ENTREGADA">
+                        <button class="btn" type="submit">Marcar entregada</button>
+                    </form>
+                    <form th:if="${venta.estado.name() == 'REGISTRADA' or venta.estado.name() == 'EN_PREPARACION'}" th:action="@{|/admin/ventas/${venta.id}/estado|}" method="post">
+                        <input type="hidden" name="estado" value="CANCELADA">
+                        <button class="btn-peligro" type="submit">Cancelar y devolver stock</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

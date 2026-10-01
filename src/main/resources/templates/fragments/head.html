@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' · Tienda Noticias.lat'">Tienda Noticias.lat</title>
+    <meta name="description" content="Tienda de la redacción de Noticias.lat. Suscripciones, ediciones, libros y objetos.">
+    <link rel="icon" th:href="@{/favicon.svg}" type="image/svg+xml">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+</html>

@@ -13,7 +13,7 @@ El pedido se registra y descuenta stock. No hay pasarela de pago y no se cobra n
 
 ## Requisitos
 
-- JDK 21
+- JDK 17
 - MongoDB 7 u 8 en `localhost:27017`
 
 Docker, si lo preferís:

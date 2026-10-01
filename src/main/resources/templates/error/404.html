@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Página no encontrada')}"></head>
+<body class="sitio">
+<main class="contenedor error-pagina">
+    <p class="kicker">Noticias.lat</p>
+    <h1>404</h1>
+    <p class="bajada">Esa página no está en esta edición.</p>
+    <div class="acciones"><a class="btn" th:href="@{/}">Volver al inicio</a></div>
+</main>
+</body>
+</html>

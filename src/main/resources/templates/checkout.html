@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Registro del pedido')}"></head>
+<body class="sitio">
+<header th:replace="~{fragments/header :: header}"></header>
+<main id="contenido" class="contenedor">
+    <div class="pagina-titulo">
+        <p class="kicker">Pedido</p>
+        <h1>Registro</h1>
+    </div>
+    <div th:replace="~{fragments/avisos :: avisos}"></div>
+    <div class="checkout-layout">
+        <form th:action="@{/checkout}" th:object="${formulario}" method="post" novalidate>
+            <div class="form-grid">
+                <label class="campo">
+                    <span>Nombre y apellido</span>
+                    <input type="text" th:field="*{clienteNombre}" autocomplete="name">
+                    <small class="campo-error" th:if="${#fields.hasErrors('clienteNombre')}" th:errors="*{clienteNombre}"></small>
+                </label>
+                <label class="campo">
+                    <span>Correo</span>
+                    <input type="email" th:field="*{clienteEmail}" autocomplete="email">
+                    <small class="campo-error" th:if="${#fields.hasErrors('clienteEmail')}" th:errors="*{clienteEmail}"></small>
+                </label>
+                <label class="campo">
+                    <span>Teléfono</span>
+                    <input type="text" th:field="*{clienteTelefono}" autocomplete="tel">
+                    <small class="campo-error" th:if="${#fields.hasErrors('clienteTelefono')}" th:errors="*{clienteTelefono}"></small>
+                </label>
+                <label class="campo">
+                    <span>Documento (opcional)</span>
+                    <input type="text" th:field="*{documento}">
+                    <small class="campo-error" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></small>
+                </label>
+                <label class="campo campo-ancho">
+                    <span>Dirección</span>
+                    <input type="text" th:field="*{direccion}" autocomplete="street-address">
+                    <small class="campo-error" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></small>
+                </label>
+                <label class="campo">
+                    <span>Ciudad</span>
+                    <input type="text" th:field="*{ciudad}" autocomplete="address-level2">
+                    <small class="campo-error" th:if="${#fields.hasErrors('ciudad')}" th:errors="*{ciudad}"></small>
+                </label>
+                <label class="campo">
+                    <span>Medio declarado</span>
+                    <select th:field="*{metodoPago}">
+                        <option value="">Elegir</option>
+                        <option th:each="metodo : ${metodos}" th:value="${metodo}" th:text="${metodo.etiqueta}"></option>
+                    </select>
+                    <small class="campo-error" th:if="${#fields.hasErrors('metodoPago')}" th:errors="*{metodoPago}"></small>
+                </label>
+                <label class="campo campo-ancho">
+                    <span>Notas (opcional)</span>
+                    <textarea th:field="*{notas}"></textarea>
+                    <small class="campo-error" th:if="${#fields.hasErrors('notas')}" th:errors="*{notas}"></small>
+                </label>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Registrar pedido</button>
+                <a class="btn-linea" th:href="@{/carrito}">Volver al carrito</a>
+            </div>
+        </form>
+        <aside class="resumen-pedido">
+            <h2>Tu pedido</h2>
+            <dl>
+                <div th:each="linea : ${carrito.lineas}">
+                    <dt th:text="|${linea.nombre} × ${linea.cantidad}|">Pieza</dt>
+                    <dd th:text="${@dinero.format(linea.subtotal)}">US$ 0</dd>
+                </div>
+            </dl>
+            <p class="total-grande"><span>Total</span><span th:text="${@dinero.format(carrito.total)}">US$ 0</span></p>
+            <p class="nota">Proyecto académico. El medio de pago queda asentado en la venta y no se procesa un cobro.</p>
+        </aside>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

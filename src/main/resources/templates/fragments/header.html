@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header class="masthead" th:fragment="header">
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <div class="franja">
+        <div class="franja-inner">
+            <p>Latinoamérica · Precios de demostración en USD</p>
+            <p th:text="${fechaHoy}">Fecha</p>
+            <p>
+                <a sec:authorize="isAuthenticated()" th:href="@{/admin}">Tablero</a>
+                <a sec:authorize="!isAuthenticated()" th:href="@{/login}">Ingreso redacción</a>
+            </p>
+        </div>
+    </div>
+    <div class="marca-wrap">
+        <a class="marca" th:href="@{/}">
+            <span class="marca-sello" aria-hidden="true"></span>
+            <span>
+                <span class="marca-nombre">Noticias<span>.lat</span></span>
+                <span class="marca-sub">Tienda</span>
+            </span>
+        </a>
+    </div>
+    <input class="nav-toggle" type="checkbox" id="nav-toggle">
+    <label class="nav-boton" for="nav-toggle">Menú</label>
+    <nav class="nav-principal" aria-label="Secciones">
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/catalogo}">Catálogo</a>
+        <a th:each="cat : ${categorias}" th:href="@{/catalogo(categoria=${cat})}" th:text="${cat.nombre}">Sección</a>
+        <a class="nav-carrito" th:href="@{/carrito}">
+            Carrito <strong th:text="${cantidadCarrito}">0</strong>
+        </a>
+    </nav>
+</header>
+</body>
+</html>

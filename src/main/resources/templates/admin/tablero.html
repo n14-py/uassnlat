@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Tablero')}"></head>
+<body class="admin">
+<div class="admin-shell">
+    <aside th:replace="~{admin/fragments/lado :: lado}"></aside>
+    <div class="admin-cuerpo">
+        <header th:replace="~{admin/fragments/lado :: tope}"></header>
+        <main class="admin-main">
+            <div th:replace="~{fragments/avisos :: avisos}"></div>
+            <div class="admin-encabezado">
+                <div>
+                    <p class="kicker">Hoy</p>
+                    <h1>Tablero</h1>
+                </div>
+                <a class="btn" th:href="@{/admin/ventas/nueva}">Registrar venta</a>
+            </div>
+            <section class="stats">
+                <article class="stat">
+                    <span>Ventas de hoy</span>
+                    <strong th:text="${resumen.ventasHoy}">0</strong>
+                    <em th:text="${@dinero.format(resumen.montoHoy)}">US$ 0</em>
+                </article>
+                <article class="stat">
+                    <span>Ventas del mes</span>
+                    <strong th:text="${resumen.ventasMes}">0</strong>
+                    <em th:text="${@dinero.format(resumen.montoMes)}">US$ 0</em>
+                </article>
+                <article class="stat">
+                    <span>Ticket promedio</span>
+                    <strong th:text="${@dinero.format(resumen.ticketPromedio)}">US$ 0</strong>
+                    <em>Sin canceladas</em>
+                </article>
+                <article class="stat">
+                    <span>Productos activos</span>
+                    <strong th:text="${resumen.productosActivos}">0</strong>
+                    <em>En la tienda</em>
+                </article>
+            </section>
+            <div class="admin-split">
+                <section class="panel">
+                    <h2>Últimas ventas</h2>
+                    <p class="nota" th:if="${resumen.recientes.empty}">Todavía no hay ventas.</p>
+                    <div class="tabla-wrap" th:if="${!resumen.recientes.empty}">
+                        <table class="data">
+                            <thead>
+                            <tr><th>Número</th><th>Cliente</th><th>Estado</th><th>Total</th></tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="venta : ${resumen.recientes}">
+                                <td><a th:href="@{|/admin/ventas/${venta.id}|}" th:text="${venta.numero}">NT</a></td>
+                                <td th:text="${venta.clienteNombre}">Cliente</td>
+                                <td><span class="estado" th:classappend="${venta.estado}" th:text="${venta.estado.etiqueta}">Estado</span></td>
+                                <td th:text="${@dinero.format(venta.total)}">US$ 0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="panel">
+                    <h2>Stock bajo</h2>
+                    <p class="nota" th:if="${resumen.stockBajo.empty}">Ningún producto activo está en 5 unidades o menos.</p>
+                    <ul th:if="${!resumen.stockBajo.empty}" style="margin:.4rem 0 0; padding-left:1.1rem;">
+                        <li th:each="producto : ${resumen.stockBajo}">
+                            <a th:href="@{|/admin/productos/${producto.id}/editar|}" th:text="${producto.nombre}">Nombre</a>
+                            <span th:text="|· ${producto.stock}|">· 0</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

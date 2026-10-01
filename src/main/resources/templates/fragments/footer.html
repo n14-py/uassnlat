@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer class="pie" th:fragment="footer">
+    <div class="contenedor pie-grid">
+        <div>
+            <strong>Noticias.lat</strong>
+            <p>Tienda de la redacción. Proyecto universitario para correr en local.</p>
+        </div>
+        <nav aria-label="Pie">
+            <a th:href="@{/catalogo}">Catálogo</a>
+            <a th:href="@{/carrito}">Carrito</a>
+            <a th:href="@{/login}">Ingreso de redacción</a>
+        </nav>
+        <p class="pie-legal">Los pedidos se guardan en MongoDB en esta computadora. No se realiza ningún cobro real.</p>
+    </div>
+</footer>
+</body>
+</html>

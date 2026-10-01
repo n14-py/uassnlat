@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${producto.nombre})}"></head>
+<body class="sitio">
+<header th:replace="~{fragments/header :: header}"></header>
+<main id="contenido" class="contenedor">
+    <p class="migas">
+        <a th:href="@{/}">Inicio</a> /
+        <a th:href="@{/catalogo(categoria=${producto.categoria})}" th:text="${producto.categoria.nombre}">Sección</a> /
+        <span th:text="${producto.nombre}">Producto</span>
+    </p>
+    <div th:replace="~{fragments/avisos :: avisos}"></div>
+    <article class="ficha">
+        <div class="ficha-media">
+            <img th:src="@{|/img/portadas/${producto.imagen}.svg|}" th:alt="${producto.nombre}">
+        </div>
+        <div class="ficha-compra">
+            <p class="kicker" th:text="${producto.categoria.nombre}">Sección</p>
+            <h1 th:text="${producto.nombre}">Nombre</h1>
+            <p class="resumen" th:text="${producto.resumen}">Resumen</p>
+            <p class="precio">
+                <span th:text="${@dinero.format(producto.precio)}">US$ 0</span>
+                <s th:if="${producto.descuento != null}" th:text="${@dinero.format(producto.precioLista)}"></s>
+                <em th:if="${producto.descuento != null}" th:text="|−${producto.descuento}%|">−0%</em>
+            </p>
+            <p th:text="${producto.etiquetaStock}">En stock</p>
+            <p class="prosa" th:text="${producto.descripcion}">Descripción</p>
+            <form class="compra-form" th:action="@{/carrito/agregar}" method="post" th:if="${producto.stock > 0}">
+                <input type="hidden" name="productoId" th:value="${producto.id}">
+                <input type="hidden" name="volver" th:value="|/producto/${producto.slug}|">
+                <label class="campo">
+                    <span>Cantidad</span>
+                    <input type="number" name="cantidad" value="1" min="1" th:max="${producto.stock > 20 ? 20 : producto.stock}">
+                </label>
+                <button class="btn" type="submit">Agregar al carrito</button>
+            </form>
+            <p class="nota" th:if="${producto.stock == 0}">Esta pieza está agotada.</p>
+            <p class="meta" th:text="|SKU ${producto.sku}|">SKU</p>
+        </div>
+    </article>
+    <section class="bloque" th:if="${!relacionados.empty}">
+        <div class="bloque-titulo"><h2>En la misma sección</h2></div>
+        <div class="grilla">
+            <th:block th:each="item : ${relacionados}">
+                <article th:replace="~{fragments/tarjeta :: tarjeta(producto=${item})}"></article>
+            </th:block>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

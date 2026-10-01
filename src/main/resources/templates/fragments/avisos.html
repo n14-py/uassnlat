@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="avisos">
+    <p class="aviso aviso-ok" th:if="${mensaje}" th:text="${mensaje}" role="status"></p>
+    <p class="aviso aviso-error" th:if="${error}" th:text="${error}" role="alert"></p>
+    <ul class="aviso aviso-alerta" th:if="${avisos != null and !avisos.empty}">
+        <li th:each="item : ${avisos}" th:text="${item}"></li>
+    </ul>
+</div>
+</body>
+</html>

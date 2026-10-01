@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img">
+  <rect width="640" height="800" fill="#f6f1e8"/>
+  
+  <rect width="640" height="800" fill="#e7eef2"/>
+  <rect x="70" y="180" width="70" height="420" fill="#1e3a4c"/>
+  <rect x="160" y="180" width="36" height="420" fill="#1e3a4c" opacity=".45"/>
+  <rect x="216" y="180" width="18" height="420" fill="#1e3a4c" opacity=".25"/>
+  <rect x="390" y="210" width="170" height="170" fill="none" stroke="#1e3a4c" stroke-width="10"/>
+  <text x="78" y="92" fill="#1e3a4c" font-family="Georgia, serif" font-size="18" letter-spacing="5">NOTICIAS.LAT</text>
+  <line x1="78" y1="112" x2="562" y2="112" stroke="#14202b" stroke-width="1.5"/>
+  <text x="78" y="690" fill="#14202b" font-family="Georgia, serif" font-size="22" letter-spacing="6">ARCHIVO</text>
+
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img">
+  <rect width="640" height="800" fill="#f6f1e8"/>
+  
+  <rect width="640" height="800" fill="#f3ecdf"/>
+  <circle cx="460" cy="340" r="168" fill="#9f1d2a"/>
+  <rect x="78" y="250" width="168" height="250" fill="#1c1915"/>
+  <text x="78" y="92" fill="#9f1d2a" font-family="Georgia, serif" font-size="18" letter-spacing="5">NOTICIAS.LAT</text>
+  <line x1="78" y1="112" x2="562" y2="112" stroke="#1c1915" stroke-width="1.5"/>
+  <text x="78" y="640" fill="#1c1915" font-family="Georgia, serif" font-size="64">01</text>
+  <text x="78" y="682" fill="#6d645a" font-family="Georgia, serif" font-size="16" letter-spacing="4">CRÓNICA</text>
+
+</svg>

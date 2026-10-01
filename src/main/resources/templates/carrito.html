@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Carrito')}"></head>
+<body class="sitio">
+<header th:replace="~{fragments/header :: header}"></header>
+<main id="contenido" class="contenedor">
+    <div class="pagina-titulo">
+        <p class="kicker">Pedido</p>
+        <h1>Carrito</h1>
+    </div>
+    <div th:replace="~{fragments/avisos :: avisos}"></div>
+    <div class="vacio" th:if="${carrito.estaVacio()}">
+        <h2>Todavía no hay piezas.</h2>
+        <p>El catálogo tiene suscripciones, ediciones, libros y objetos de la redacción.</p>
+        <div class="acciones"><a class="btn" th:href="@{/catalogo}">Ir al catálogo</a></div>
+    </div>
+    <div class="carrito-layout" th:if="${!carrito.estaVacio()}">
+        <div class="tabla-wrap">
+            <table class="data">
+                <thead>
+                <tr>
+                    <th>Pieza</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="linea : ${carrito.lineas}">
+                    <td>
+                        <div class="linea-producto">
+                            <img class="mini" th:src="@{|/img/portadas/${linea.imagen}.svg|}" alt="">
+                            <a th:href="@{|/producto/${linea.slug}|}" th:text="${linea.nombre}">Nombre</a>
+                        </div>
+                    </td>
+                    <td th:text="${@dinero.format(linea.precioUnitario)}">US$ 0</td>
+                    <td>
+                        <form class="cantidad-form" th:action="@{/carrito/actualizar}" method="post">
+                            <input type="hidden" name="productoId" th:value="${linea.productoId}">
+                            <input type="number" name="cantidad" min="0" max="20" th:value="${linea.cantidad}">
+                            <button class="btn-chico btn-linea" type="submit">Actualizar</button>
+                        </form>
+                    </td>
+                    <td th:text="${@dinero.format(linea.subtotal)}">US$ 0</td>
+                    <td>
+                        <form th:action="@{/carrito/quitar}" method="post">
+                            <input type="hidden" name="productoId" th:value="${linea.productoId}">
+                            <button class="btn-texto" type="submit">Quitar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <aside class="resumen-pedido">
+            <h2>Resumen</h2>
+            <dl>
+                <div><dt>Piezas</dt><dd th:text="${carrito.cantidadTotal}">0</dd></div>
+            </dl>
+            <p class="total-grande"><span>Total</span><span th:text="${@dinero.format(carrito.total)}">US$ 0</span></p>
+            <a class="btn" th:href="@{/checkout}">Continuar al registro</a>
+            <p class="nota">El siguiente paso guarda el pedido. No se cobra nada.</p>
+        </aside>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

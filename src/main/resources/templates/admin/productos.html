@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('Productos')}"></head>
+<body class="admin">
+<div class="admin-shell">
+    <aside th:replace="~{admin/fragments/lado :: lado}"></aside>
+    <div class="admin-cuerpo">
+        <header th:replace="~{admin/fragments/lado :: tope}"></header>
+        <main class="admin-main">
+            <div th:replace="~{fragments/avisos :: avisos}"></div>
+            <div class="admin-encabezado">
+                <div>
+                    <p class="kicker">Catálogo</p>
+                    <h1>Productos</h1>
+                </div>
+                <a class="btn" th:href="@{/admin/productos/nuevo}">Nuevo producto</a>
+            </div>
+            <div class="chips">
+                <a class="chip" th:classappend="${filtro == 'todos'} ? 'activo' : ''" th:href="@{/admin/productos(q=${q},filtro='todos')}">Todos</a>
+                <a class="chip" th:classappend="${filtro == 'activos'} ? 'activo' : ''" th:href="@{/admin/productos(q=${q},filtro='activos')}">Activos</a>
+                <a class="chip" th:classappend="${filtro == 'archivados'} ? 'activo' : ''" th:href="@{/admin/productos(q=${q},filtro='archivados')}">Archivados</a>
+            </div>
+            <form class="filtros" method="get" th:action="@{/admin/productos}" style="grid-template-columns: 1fr auto;">
+                <input type="hidden" name="filtro" th:value="${filtro}">
+                <label class="campo">
+                    <span>Buscar</span>
+                    <input type="search" name="q" th:value="${q}" placeholder="Nombre o SKU">
+                </label>
+                <button class="btn" type="submit">Buscar</button>
+            </form>
+            <p class="nota" th:if="${productos.empty}">No hay productos con ese criterio.</p>
+            <div class="tabla-wrap panel" th:if="${!productos.empty}">
+                <table class="data">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Producto</th>
+                        <th>SKU</th>
+                        <th>Sección</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="producto : ${productos}">
+                        <td><img class="mini" th:src="@{|/img/portadas/${producto.imagen}.svg|}" alt=""></td>
+                        <td>
+                            <a th:href="@{|/admin/productos/${producto.id}/editar|}" th:text="${producto.nombre}">Nombre</a>
+                            <div class="nota" th:if="${producto.destacado}">En portada</div>
+                        </td>
+                        <td th:text="${producto.sku}">SKU</td>
+                        <td th:text="${producto.categoria.nombre}">Sección</td>
+                        <td th:text="${@dinero.format(producto.precio)}">US$ 0</td>
+                        <td th:text="${producto.stock}">0</td>
+                        <td th:text="${producto.activo} ? 'Activo' : 'Archivado'">Activo</td>
+                        <td>
+                            <form th:if="${producto.activo}" th:action="@{|/admin/productos/${producto.id}/archivar|}" method="post">
+                                <button class="btn-texto" type="submit">Archivar</button>
+                            </form>
+                            <form th:if="${!producto.activo}" th:action="@{|/admin/productos/${producto.id}/reactivar|}" method="post">
+                                <button class="btn-texto" type="submit">Reactivar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

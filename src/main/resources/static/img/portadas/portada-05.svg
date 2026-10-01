@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img">
+  <rect width="640" height="800" fill="#f6f1e8"/>
+  
+  <rect width="640" height="800" fill="#f8eee9"/>
+  <polygon points="0,800 640,220 640,800" fill="#c4492c"/>
+  <rect x="70" y="150" width="220" height="8" fill="#2a1814"/>
+  <rect x="70" y="176" width="160" height="8" fill="#2a1814"/>
+  <text x="70" y="120" fill="#c4492c" font-family="Georgia, serif" font-size="18" letter-spacing="5">TALLER</text>
+  <text x="70" y="430" fill="#2a1814" font-family="Georgia, serif" font-size="70">Lat.</text>
+
+</svg>

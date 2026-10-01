@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img">
+  <rect width="640" height="800" fill="#f6f1e8"/>
+  
+  <rect width="640" height="800" fill="#f7f4ee"/>
+  <rect x="80" y="160" width="200" height="480" fill="#1c1915"/>
+  <rect x="310" y="160" width="70" height="480" fill="#8c1d2c"/>
+  <rect x="410" y="160" width="28" height="480" fill="#1c1915" opacity=".35"/>
+  <rect x="458" y="160" width="14" height="480" fill="#1c1915" opacity=".2"/>
+  <text x="80" y="110" fill="#8c1d2c" font-family="Georgia, serif" font-size="18" letter-spacing="5">PAPEL</text>
+
+</svg>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Ingreso de redacción')}"></head>
+<body class="sitio">
+<main class="login-pagina">
+    <section class="login-caja">
+        <a class="login-marca" th:href="@{/}">Noticias<span>.lat</span></a>
+        <p class="kicker" style="margin-top:1rem;">Redacción</p>
+        <h1>Ingreso</h1>
+        <p class="bajada">Productos, stock y ventas de mostrador.</p>
+        <p class="aviso aviso-error" th:if="${param.error}" role="alert">Usuario o clave incorrectos.</p>
+        <p class="aviso aviso-ok" th:if="${param.logout}" role="status">La sesión se cerró.</p>
+        <form th:action="@{/login}" method="post" style="margin-top:1rem;">
+            <div class="form-grid" style="grid-template-columns: 1fr;">
+                <label class="campo">
+                    <span>Usuario</span>
+                    <input type="text" name="usuario" autocomplete="username" required>
+                </label>
+                <label class="campo">
+                    <span>Clave</span>
+                    <input type="password" name="clave" autocomplete="current-password" required>
+                </label>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Entrar</button>
+                <a class="btn-linea" th:href="@{/}">Volver a la tienda</a>
+            </div>
+        </form>
+        <p class="nota-demo">Demostración local: usuario <strong>admin</strong>, clave <strong>admin123</strong>. Se puede cambiar en <code>application.yml</code>.</p>
+    </section>
+</main>
+</body>
+</html>

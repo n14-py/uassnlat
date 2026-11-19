@@ -5,12 +5,14 @@ import lat.noticias.tienda.modelo.Categoria;
 import lat.noticias.tienda.modelo.Producto;
 import lat.noticias.tienda.servicio.ProductoServicio;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -58,6 +60,7 @@ public class ApiProductosControlador {
     }
 
     @PostMapping("/admin/productos")
+    @ResponseStatus(HttpStatus.CREATED)
     public ProductoJson crear(@Valid @RequestBody ProductoAlta alta) {
         return ProductoJson.de(productoServicio.guardar(alta.aFormulario(null)));
     }
@@ -66,6 +69,15 @@ public class ApiProductosControlador {
     public ProductoJson actualizar(@PathVariable String id, @Valid @RequestBody ProductoAlta alta) {
         buscar(id);
         return ProductoJson.de(productoServicio.guardar(alta.aFormulario(id)));
+    }
+
+    @DeleteMapping("/admin/productos/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminar(@PathVariable String id) {
+        if (productoServicio.porId(id).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado");
+        }
+        productoServicio.cambiarActivo(id, false);
     }
 
     private Producto buscar(String id) {

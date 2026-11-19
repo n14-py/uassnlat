@@ -9,11 +9,11 @@ El pedido se registra y descuenta stock. No hay pasarela de pago y no se cobra n
 - Tienda pública: inicio, catálogo con búsqueda y secciones, ficha, carrito y registro del pedido.
 - Panel de redacción: tablero, alta y edición de productos, archivo, ventas de mostrador y cambio de estado.
 - API REST en JSON para mostrar el backend aparte de las pantallas.
-- Catálogo de demostración y tres ventas de ejemplo, solo la primera vez que la base está vacía.
+- El catálogo arranca vacío. Los productos se cargan desde el panel o desde la API.
 
 ## Requisitos
 
-- JDK 21
+- JDK 17
 - MongoDB 7 u 8 en `localhost:27017`
 
 Docker, si lo preferís:
